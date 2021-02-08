@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 // Components
 import Item from './Item/Item';
@@ -20,15 +20,11 @@ export type CartItemType = {
   amount: number;
 };
 
-
-const getProducts = async ():Promise<CartItemType[]> =>
+const getProducts = async (): Promise<CartItemType[]> =>
   await (await fetch('https://fakestoreapi.com/products')).json();
 
 const App = () => {
-  const { data, isLoading, error } = useQuery<CartItemType[]>(
-    'products',
-    getProducts
-  );
+  const { data, isLoading, error } = useQuery<CartItemType[]>('products', getProducts);
   console.log(data);
 
   const getTotalItems = () => null;
@@ -39,12 +35,12 @@ const App = () => {
 
   if (isLoading) return <LinearProgress />;
 
-  if (error) return <div>Something went wrong</div>
+  if (error) return <div>Something went wrong</div>;
 
   return (
     <Wrapper>
       <Grid container spacing={3}>
-        {data?.map(item => (
+        {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
             <Item item={item} handleAddToCart={handleAddToCart} />
           </Grid>
@@ -52,6 +48,6 @@ const App = () => {
       </Grid>
     </Wrapper>
   );
-}
+};
 
 export default App;
